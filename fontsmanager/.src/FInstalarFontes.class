@@ -1,0 +1,63 @@
+' Gambas class file
+
+'FontsManager - Gerenciador de Fontes
+'Gambas3 Version 3.18.0.
+
+'See https://github.com/profmugomes/fontsmanager/ The FontsManager GitHub project
+
+'Author Murilo Gomes <contatoprofmugomes@gmail.com>
+'Copyright 2023 Murilo Gomes
+'License https://www.gnu.org/licenses/gpl-2.0.html GNU GENERAL PUBLIC LICENSE
+'Note: This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Public Sub btnInstalarFonte_Click()
+  Dim existfolder As String
+  
+  If True = Exist(txtArquivoFonte.Text) Then
+    Shell "[ ! -d \"" & User.Home & "/.fonts\" ] && echo \"NaoEncontrado\"" Wait To existfolder
+    
+    existfolder = Replace(existfolder, gb.NewLine, "")
+    existfolder = Replace(existfolder, " ", "")
+    
+    If "NaoEncontrado" = existfolder Then
+      Shell "mkdir -p \"" & User.Home & "/.fonts\"" Wait
+    Endif
+    
+    Shell "cp -rf \"" & txtArquivoFonte.Text & "\" " & User.Home & "/.fonts/" Wait
+    
+    Shell "fc-cache " & User.Home & "/.fonts" Wait  
+    
+    Message.Info("Fonte instalada com sucesso!")
+  Else
+    Message.Error("Arquivo selecionado não encontrado!")
+  Endif
+End
+
+Public Sub txtArquivoFonte_Click()
+  Dialog.Title = "Selecione um arquivo de fonte"
+  Dialog.Filter = ["*.ttf; *.otf", "Arquivo de Fonte"]
+  
+  If "" = Settings["PastaFonte1"] Then
+    Dialog.Path = User.Home
+  Else
+    Dialog.Path = Settings["PastaFonte1"]
+  Endif
+  
+  If Dialog.OpenFile() Then
+    Return
+  Else
+    txtArquivoFonte.Text = Dialog.Path
+    
+    Wait 0.05
+    
+    Settings["PastaFonte1"] = txtArquivoFonte.Text
+    Settings.Save()
+  Endif
+End
+
+Public Sub Form_Close()
+  Shell "fontsmanager"
+  Quit
+End

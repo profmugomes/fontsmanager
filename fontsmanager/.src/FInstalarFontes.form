@@ -1,0 +1,21 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,62,19)
+  Font = Font["12"]
+  Text = ("Instalar Fontes")
+  Icon = Picture["fontsmanager.png"]
+  Resizable = False
+  { Label1 Label
+    MoveScaled(1,1,60,4)
+    Font = Font["Bold"]
+    Text = ("Fonte")
+  }
+  { txtArquivoFonte ButtonBox
+    MoveScaled(1,6,60,4)
+  }
+  { btnInstalarFonte Button
+    MoveScaled(18,12,26,5)
+    Text = ("Instalar Fonte")
+  }
+}

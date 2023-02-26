@@ -1,0 +1,127 @@
+' Gambas class file
+
+'FontsManager - Gerenciador de Fontes
+'Gambas3 Version 3.18.0.
+
+'See https://github.com/profmugomes/fontsmanager/ The FontsManager GitHub project
+
+'Author Murilo Gomes <contatoprofmugomes@gmail.com>
+'Copyright 2023 Murilo Gomes
+'License https://www.gnu.org/licenses/gpl-2.0.html GNU GENERAL PUBLIC LICENSE
+'Note: This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Public sTamanho As Short = 12
+
+Public sCorTexto As Integer = 0
+Public sCorFundo As Integer = 16777215
+
+Public sNegrito As Boolean = False
+Public sItalico As Boolean = False
+Public sSublinhado As Boolean = False
+Public sTachado As Boolean = False
+
+Public Sub CheckFontes()
+  Dim sCaracteres As String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!#$%&'()*+,-./0123456789:;<=>?@"
+  Dim sFonte As New String[]
+  Dim i, sFontesEncontradas As Short
+  
+  Me.Mouse = Mouse.Wait
+  Me.Refresh()
+  
+  Wait
+
+  If Trim(txtPalavraFrase.Text) <> "" Then 
+    sCaracteres = txtPalavraFrase.Text
+  Endif
+
+  For Each sNomeFonte As String In Fonts
+      sFonte.add(sNomeFonte)
+  Next
+
+  With gvFontes
+    .Clear()
+    .Columns.Count = 2
+    .Rows.Count = 0
+    .Font.Bold = True
+    .Rows.Height = sTamanho + (sTamanho * 2)
+    .Columns[0].Title = " Fonte"
+    .Columns[1].Title = " Texto"
+  End With
+
+  For i = 0 To sFonte.Max
+    If Trim(txtPesquisarFonte.Text) Then
+      If Not InStr(UCase(sFonte[i]), UCase(txtPesquisarFonte.Text)) Then Continue
+    Endif
+    
+    With gvFontes
+      .Rows.Count += 1
+      .[sFontesEncontradas, 0].Text = sFonte[i]
+      .[sFontesEncontradas, 1].Font = Font[sFonte[i]]
+      .[sFontesEncontradas, 1].Text = sCaracteres
+      .[sFontesEncontradas, 1].Font.Bold = sNegrito
+      .[sFontesEncontradas, 1].Font.Italic = sItalico
+      .[sFontesEncontradas, 1].Font.UnderLine = sSublinhado
+      .[sFontesEncontradas, 1].Font.StrikeOut = sTachado
+      .[sFontesEncontradas, 1].Font.size = sTamanho
+      .[sFontesEncontradas, 1].Foreground = sCorTexto
+      .[sFontesEncontradas, 1].Background = sCorFundo
+    End With
+    
+    Inc sFontesEncontradas
+  Next
+
+  lblStatus.Text = Str(sFontesEncontradas) & " fontes encontradas"
+  gvFontes.Columns.Width = -1
+  Me.Mouse = Mouse.Default
+End
+
+Public Sub Form_Open()
+  CheckFontes()
+End
+
+Public Sub txtPesquisarFonte_KeyPress()
+  If Key.Code = Key.Enter Or Key.Code = Key.Return Then
+    CheckFontes()
+  Endif
+End
+
+Public Sub btnPesquisarFonte_Click()
+  CheckFontes()
+End
+
+Public Sub txtPalavraFrase_KeyRelease()
+  CheckFontes()
+End
+
+Public Sub mnuPersonalizar_Click()
+  FPersonalizar.ShowDialog()
+End
+
+Public Sub mnuInstalarFontes_Click()
+  FInstalarFontes.ShowDialog()
+End
+
+Public Sub mnuDesinstalarFontes_Click()
+  If 1 = Message.Info("Feche todos os aplicativos de edição de texto antes de continuar!", "Continuar") Then 
+    FDesinstalarFontes.NomeFonte = gvFontes[gvFontes.Row, 0].Text
+    FDesinstalarFontes.ShowDialog()
+  Endif
+End
+
+Public Sub mnuSobre_Click()
+  FSobre.ShowDialog()
+End
+
+Public Sub mnuSair_Click()
+  Quit 
+End
+
+Public Sub mnuDesinstalarFontes2_Click()
+  mnuDesinstalarFontes_Click
+End
+
+Public Sub gvFontes_Click()
+  mnuDesinstalarFontes.Enabled = True
+End

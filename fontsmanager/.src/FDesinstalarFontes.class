@@ -1,0 +1,59 @@
+' Gambas class file
+
+'FontsManager - Gerenciador de Fontes
+'Gambas3 Version 3.18.0.
+
+'See https://github.com/profmugomes/fontsmanager/ The FontsManager GitHub project
+
+'Author Murilo Gomes <contatoprofmugomes@gmail.com>
+'Copyright 2023 Murilo Gomes
+'License https://www.gnu.org/licenses/gpl-2.0.html GNU GENERAL PUBLIC LICENSE
+'Note: This program is distributed in the hope that it will be useful,
+'but WITHOUT ANY WARRANTY; without even the implied warranty of
+'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Public IdGrid As Integer
+Public NomeFonte As String
+Public NomeArquivo As String
+
+Public Sub btnRemover_Click()
+  If 1 = Message.Delete("Ao remover a fonte a mesma será excluida permanentemente sem a possibilidade de recuperação, você tem certeza que quer continuar?", "Sim", "Não") Then
+    If "root" = Stat(NomeArquivo).User Then
+      Message.Info("Você não tem permissão para remover essa fonte!")
+      
+      Me.Close()
+    Else
+      Shell "rm -rf \"" & User.Home & "/.fonts/" & File.Name(NomeArquivo) & "\"" Wait
+
+      Message.Info("A fonte foi removida, reinicie os aplicativos abertos!")
+      
+      Shell "fontsmanager"
+      
+      Quit
+    Endif
+  Else
+    Message.Info("A fonte não foi removida!")
+    
+    Me.Close()
+  Endif
+End
+
+Public Sub btnCancelar_Click()
+  Message.Info("A fonte não foi removida!")
+  
+  Me.Close()
+End
+
+Public Sub Form_Open()
+  lblFonte.Text = Replace(lblFonte.Text, "{nomefonte}", NomeFonte)
+  
+  Shell "fc-list \"" & NomeFonte & "\" file" Wait To NomeArquivo
+  
+  NomeArquivo = Replace(NomeArquivo, gb.NewLine, "")
+  NomeArquivo = Replace(NomeArquivo, ": ", "")
+  
+  If False = Exist(NomeArquivo) Then
+    Message.Error("O arquivo dessa fonte não foi localizado!")
+    Me.Close()
+  Endif
+End

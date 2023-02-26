@@ -1,0 +1,14 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,54,29)
+  Font = Font["+1"]
+  Text = ("Sobre FontsManager")
+  Icon = Picture["fontsmanager.png"]
+  Resizable = False
+  { Label1 Label
+    MoveScaled(1,1,52,27)
+    Alignment = Align.TopLeft
+    Text = ("Aplicativo: FontsManager\nDesenvolvido por: Murilo Gomes\nE-mail: contatoprofmugomes@gmail.com\nSite: https://profmugomes.blogspot.com\n\nCopyright 2023 Murilo Gomes\n\nLicença: GPL-2.0")
+  }
+}

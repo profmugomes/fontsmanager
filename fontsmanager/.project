@@ -1,0 +1,24 @@
+# Gambas Project File 3.0
+Title=Gerenciador de Fontes
+Startup=FMain
+Icon=fontsmanager.png
+Version=0.0.5
+Component=gb.image
+Component=gb.gtk3
+Component=gb.form
+Component=gb.settings
+Description="Instale, desinstale e teste fontes instaladas em seu sistema."
+Authors="Murilo Gomes <contatoprofmugomes@gmail.com>"
+TabSize=2
+Language=pt_BR
+Maintainer=Murilo Gomes
+Vendor=MG
+VendorPrefix=MG
+Address=contatoprofmugomes@gmail.com
+Url=profmugomes.blogspot.com
+License=General Public License
+PackageName=fontsmanager-0.0.5
+Packager=1
+Systems=ubuntu
+Menus=ubuntu:"Applications/Editors"
+Groups=ubuntu:"utils"

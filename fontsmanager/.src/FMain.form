@@ -1,0 +1,73 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,108,64)
+  Font = Font["12"]
+  Text = ("Gerenciador de Fontes")
+  Icon = Picture["fontsmanager.png"]
+  Resizable = False
+  { Menu1 Menu
+    Text = ("Menu")
+    { mnuInstalarFontes Menu
+      Text = ("Instalar Fontes")
+    }
+    { mnuDesinstalarFontes Menu
+      Text = ("Desinstalar Fontes")
+      Enabled = False
+    }
+    { Separador1 Menu
+    }
+    { mnuPersonalizar Menu
+      Text = ("Personalizar")
+    }
+    { Separador2 Menu
+    }
+    { mnuSobre Menu
+      Text = ("Sobre")
+    }
+    { Separador3 Menu
+    }
+    { mnuSair Menu
+      Text = ("Sair")
+    }
+  }
+  { Menu2 Menu
+    Text = ("Menu2")
+    Visible = False
+    { mnuDesinstalarFontes2 Menu
+      Text = ("Desinstalar Fonte")
+    }
+  }
+  { Label1 Label
+    MoveScaled(1,1,75,4)
+    Font = Font["Bold"]
+    Text = ("Pesquisar Fonte")
+  }
+  { txtPesquisarFonte TextBox
+    MoveScaled(1,5,90,4)
+  }
+  { btnProcurar Button
+    MoveScaled(92,5,15,4)
+    Text = ("Procurar")
+  }
+  { Label2 Label
+    MoveScaled(1,10,106,4)
+    Font = Font["Bold"]
+    Text = ("Digite uma palavra ou frase")
+  }
+  { txtPalavraFrase TextBox
+    MoveScaled(1,14,106,4)
+  }
+  { Label3 Label
+    MoveScaled(1,19,105,2)
+    Font = Font["Bold"]
+    Text = ("Fontes")
+  }
+  { gvFontes GridView
+    MoveScaled(1,22,105,32)
+    PopupMenu = "Menu2"
+  }
+  { lblStatus Label
+    MoveScaled(1,55,105,4)
+  }
+}
